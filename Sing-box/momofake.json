@@ -79,7 +79,7 @@
       {"rule_set": "geoip-netflix", "outbound": "🎥 Netflix"},
       {"rule_set": "geosite-applemusic", "outbound": "🎶 Apple Music"},
       {"rule_set": "geosite-socialmedia", "outbound": "📶 国外社交"},
-      {"rule_set": "geosite-fcm", "outbound": "🔔 FCM"},
+      {"rule_set": "geosite-googlefcm", "outbound": "🔔 FCM"},
       {"rule_set": "geosite-whatsapp", "outbound": "📟 WhatsApp"},
       {"rule_set": "geosite-line", "outbound": "🗨️ Line"},
       {"rule_set": "geosite-wechat", "outbound": "💬 微信"},
