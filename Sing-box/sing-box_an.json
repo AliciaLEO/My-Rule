@@ -143,34 +143,61 @@
   },
   "inbounds": [
     {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 20122,
+      "tcp_fast_open": false,
+      "tcp_multi_path": false,
+      "udp_fragment": true
+    },
+    {
       "type": "tun",
       "tag": "tun-in",
-      "mtu": 1400,
+      "interface_name": "",
+      "address": [
+        "172.18.0.1/30"
+      ],
+      "mtu": 9000,
       "auto_route": true,
       "strict_route": true,
-      "stack": "system",
-      "sniff": true,
-      "inet4_address": "172.16.0.1/30",
-      "inet6_address": "fd00::1/126"
+      "endpoint_independent_nat": false,
+      "stack": "mixed",
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 20122
+        }
+      }
     }
   ],
   "experimental": {
-    "cache_file": {
-      "enabled": true,
-      "path": "/storage/emulated/0/Download/sing-box/cache.db",
-      "store_fakeip": true
-    },
     "clash_api": {
-      "external_controller": "0.0.0.0:9095",
+      "external_controller": "127.0.0.1:9090",
       "external_ui": "/storage/emulated/0/Download/sing-box/ui",
       "external_ui_download_url": "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
       "external_ui_download_detour": "🎯 全球直连",
-      "secret": "",
-      "default_mode": "rule"
+      "secret": "bb67f44ca0d17918ce8a294e3741ff1b3204533e81a807293b528f2580ace2a9",
+      "default_mode": "rule",
+      "access_control_allow_origin": [
+        "*"
+      ],
+      "access_control_allow_private_network": false
+    },
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db",
+      "cache_id": "",
+      "store_fakeip": true,
+      "store_rdrc": true,
+      "rdrc_timeout": "7d"
     }
   },
   "log": {
-        "level": "error",
-        "timestamp": true
-    }
+    "disabled": false,
+    "level": "info",
+    "output": "",
+    "timestamp": false
+  }
 }
