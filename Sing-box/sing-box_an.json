@@ -65,7 +65,6 @@
   "route": {
     "rules": [
       {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
-      {"inbound": "dns-in", "action": "hijack-dns"},
       {"ip_is_private": true, "outbound": "🎯 全球直连"},
       {"clash_mode": "direct", "outbound": "🎯 全球直连"},
       {"clash_mode": "global", "outbound": "GLOBAL"},
@@ -143,15 +142,33 @@
   },
   "inbounds": [
     {
-      "tag": "tun-in",
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 20122,
+      "tcp_fast_open": false,
+      "tcp_multi_path": false,
+      "udp_fragment": true
+    },
+    {
       "type": "tun",
-      "interface_name": "momo",
+      "tag": "tun-in",
+      "interface_name": "",
       "address": [
-        "172.31.0.1/30",
-        "fdfe:dcba:9876::1/126"
+        "172.18.0.1/30"
       ],
-      "auto_route": false,
-      "auto_redirect": false
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": false,
+      "stack": "mixed",
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 20122
+        }
+      }
     }
   ],
   "experimental": {
