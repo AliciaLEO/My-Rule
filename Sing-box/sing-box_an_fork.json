@@ -9,7 +9,7 @@
           "interval": "10m",
           "timeout": "3s"
       },
-      "url": "https://SOS.CMLiussss.net/auto",
+      "url": "                           ",
       "download_detour": "🖥️ VPS自动",
       "update_interval": "40m"
     },
@@ -22,7 +22,7 @@
           "interval": "10m",
           "timeout": "3s"
       },
-      "url": "http://192.168.1.3:3001/CKg2abstVnOeRpm1aB4G/download/%E6%98%9F%E9%93%BE?target=sing-box",
+      "url": "                                          ",
       "download_detour": "🎯 全球直连",
       "update_interval": "12h"
     },
