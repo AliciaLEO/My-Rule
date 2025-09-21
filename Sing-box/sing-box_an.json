@@ -3,19 +3,20 @@
     "servers": [
       {"tag": "local", "type": "udp", "server": "223.5.5.5"},
       {"tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local"},
-      {"tag": "foreign", "type": "https", "server": "1.1.1.1"},
+      {"tag": "foreign", "type": "https", "server": "8.8.8.8", "detour": "🚀 默认代理"},
       {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
     ],
     "rules": [
       {"clash_mode": "direct", "server": "local"},
-      {"clash_mode": "global", "server": "foreign"},
+      {"clash_mode": "global", "server": "fakeip"},
+      {"query_type": "HTTPS", "action": "reject"},
       {"rule_set": ["geosite-cn", "geosite-steamcn", "geosite-apple"], "server": "local"},
-      {"domain_suffix": ["services.googleapis.cn", "xn--ngstr-lra8j.com"], "server": "public"},
       {"query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1}
     ],
     "final": "foreign",
     "strategy": "prefer_ipv4",
-    "independent_cache": true
+    "independent_cache": true,
+    "reverse_mapping": true
   },
   "outbounds": [
     {"tag": "🚀 默认代理", "type": "selector", "outbounds": ["🇭🇰 香港手动", "🇯🇵 日本手动", "🇸🇬 新加坡手动", "🇺🇲 美国手动", "🇺🇲 美国自动", "🇬🇧 英国手动", "🖥️ VPS自动", "☁️ CF自动", "☁️ CF80", "🎇 CM自动", "🌍 其他手动", "🌍 其他自动", "🐸 手动选择", "♻️ 自动选择"]},
@@ -44,20 +45,20 @@
     {"tag": "💽 yandex", "type": "selector", "outbounds": ["🚀 默认代理", "🇯🇵 日本手动", "🇸🇬 新加坡手动", "🇺🇲 美国手动", "🇺🇲 美国自动", "🇬🇧 英国手动", "🖥️ VPS自动", "☁️ CF自动", "☁️ CF80", "🎇 CM自动", "🌍 其他手动", "🌍 其他自动", "🐸 手动选择"]},
     {"tag": "📶 国外社交", "type": "selector", "outbounds": ["🚀 默认代理", "🇯🇵 日本手动", "🇸🇬 新加坡手动", "🇺🇲 美国手动", "🇺🇲 美国自动", "🇬🇧 英国手动", "🖥️ VPS自动", "☁️ CF自动", "☁️ CF80", "🎇 CM自动", "🌍 其他手动", "🌍 其他自动", "🐸 手动选择"]},
     {"tag": "🐠 漏网之鱼", "type": "selector", "outbounds": ["🚀 默认代理", "🎯 全球直连", "🐸 手动选择", "♻️ 自动选择"]},
-    {"tag": "🇭🇰 香港手动", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇭🇰|HK|hk|香港|港|HongKong"]}, {"action": "exclude", "keywords": ["免费"]}]},
-    {"tag": "🇯🇵 日本手动", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇯🇵|JP|jp|日本|日|Japan"]}, {"action": "exclude", "keywords": ["免费"]}]},
-    {"tag": "🇸🇬 新加坡手动", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["新加坡|坡|狮城|SG|Singapore"]}, {"action": "exclude", "keywords": ["免费"]}]},
-    {"tag": "🇺🇲 美国手动", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇺🇸|US|us|美国|美|United States"]}, {"action": "exclude", "keywords": ["AUS|RUS|免费"]}]},
-    {"tag": "🇺🇲 美国自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇺🇸|US|us|美国|美|United States"]}, {"action": "exclude", "keywords": ["AUS|RUS|免费"]}], "interval": "5m", "tolerance": 100},
-    {"tag": "🇬🇧 英国手动", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["🇬🇧|UK|uk|英国|英|United Kingdom"]}, {"action": "exclude", "keywords": ["免费"]}]},
-    {"tag": "🖥️ VPS自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["AM|GG|JGW|AE"]}, {"action": "exclude", "keywords": ["免费"]}], "interval": "5m", "tolerance": 100},
-    {"tag": "☁️ CF自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["CF|cf|CloudFlare|Cloudflare|cloudflare"]}, {"action": "exclude", "keywords": ["免费|80"]}], "interval": "10m", "tolerance": 100},
-    {"tag": "☁️ CF80", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["CF80"]}], "interval": "10m", "tolerance": 100},
-    {"tag": "🎇 CM自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "include", "keywords": ["MB/s"]}], "interval": "30m", "tolerance": 100},
-    {"tag": "🌍 其他手动", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "exclude", "keywords": ["🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|日|Japan|新加坡|坡|狮城|SG|Singapore|🇺🇸|US|us|美国|美|United States|🇬🇧|UK|uk|英国|英|United Kingdom|AM|GG|JGW|AE|CF|cf|CloudFlare|Cloudflare|cloudflare|网站|流量|地址|剩余|过期|免费|时间|有效|Traffic|ExpireDate|GB|Expire Date"]}]},
-    {"tag": "🌍 其他自动", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "exclude", "keywords": ["🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|日|Japan|新加坡|坡|狮城|SG|Singapore|🇺🇸|US|us|美国|美|United States|🇬🇧|UK|uk|英国|英|United Kingdom|AM|GG|JGW|AE|CF|cf|CloudFlare|Cloudflare|cloudflare|网站|流量|地址|剩余|过期|免费|时间|有效|Traffic|ExpireDate|GB|Expire Date"]}], "interval": "30m", "tolerance": 100},
-    {"tag": "🐸 手动选择", "type": "selector", "outbounds": ["{all}"], "filter": [{"action": "exclude", "keywords": ["网站|流量|地址|剩余|过期|免费|时间|有效|Traffic|ExpireDate|GB|Expire Date"]}]},
-    {"tag": "♻️ 自动选择", "type": "urltest", "outbounds": ["{all}"], "filter": [{"action": "exclude", "keywords": ["官网|到期时间|剩余|流量|套餐|免费|订阅|全球直连|GB|Expire Date|Traffic|ExpireDate"]}], "interval": "10m", "tolerance": 100},
+    {"tag": "🇭🇰 香港手动", "type": "selector", "outbounds": null, "use_all_providers": true, "include" :"🇭🇰|HK|hk|香港|港|HongKong", "exclude": "免费"},
+    {"tag": "🇯🇵 日本手动", "type": "selector", "outbounds": null, "use_all_providers": true, "include" :"🇯🇵|JP|jp|日本|日|Japan", "exclude": "免费"},
+    {"tag": "🇸🇬 新加坡手动", "type": "selector", "outbounds": null, "use_all_providers": true, "include" :"新加坡|坡|狮城|SG|Singapore", "exclude": "免费"},
+    {"tag": "🇺🇲 美国手动", "type": "selector", "outbounds": null, "use_all_providers": true, "include" :"🇺🇸|US|us|美国|美|United States", "exclude": "AUS|RUS|免费"},
+    {"tag": "🇺🇲 美国自动", "type": "urltest", "outbounds": null, "use_all_providers": true, "include" :"🇺🇸|US|us|美国|美|United States", "exclude": "AUS|RUS|免费"},
+    {"tag": "🇬🇧 英国手动", "type": "selector", "outbounds": null, "use_all_providers": true, "include" :"🇬🇧|UK|uk|英国|英|United Kingdom", "exclude": "免费"},
+    {"tag": "🖥️ VPS自动", "type": "urltest", "outbounds": null, "use_all_providers": true, "include" :"AM|GG|JGW|AE", "exclude": "免费"},
+    {"tag": "☁️ CF自动", "type": "urltest", "outbounds": null, "use_all_providers": true, "include" :"CF|cf|CloudFlare|Cloudflare|cloudflare", "exclude": "免费|80"},
+    {"tag": "☁️ CF80", "type": "urltest", "outbounds": null, "use_all_providers": true, "include" :"CF80"},
+    {"tag": "🎇 CM自动", "type": "urltest", "outbounds": null, "use_all_providers": true, "include" :"MB/s"},
+    {"tag": "🌍 其他手动", "type": "selector", "outbounds": null, "use_all_providers": true, "exclude": "🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|日|Japan|新加坡|坡|狮城|SG|Singapore|🇺🇸|US|us|美国|美|United States|🇬🇧|UK|uk|英国|英|United Kingdom|AM|GG|JGW|AE|CF|cf|CloudFlare|Cloudflare|cloudflare"},
+    {"tag": "🌍 其他自动", "type": "urltest", "outbounds": null, "use_all_providers": true, "exclude": "🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|日|Japan|新加坡|坡|狮城|SG|Singapore|🇺🇸|US|us|美国|美|United States|🇬🇧|UK|uk|英国|英|United Kingdom|AM|GG|JGW|AE|CF|cf|CloudFlare|Cloudflare|cloudflare"},
+    {"tag": "🐸 手动选择", "type": "selector", "outbounds": null, "use_all_providers": true},
+    {"tag": "♻️ 自动选择", "type": "urltest", "outbounds": null, "use_all_providers": true},
     {"tag": "🍃 延迟辅助", "type": "urltest", "outbounds": ["🚀 默认代理", "🎯 全球直连"]},
     {"tag": "GLOBAL", "type": "selector", "outbounds": ["🚀 默认代理", "🧠 AI", "📹 YouTube", "🍀 Google", "👨‍💻 Github", "📲 Telegram", "✖️ X", "🎵 TikTok", "🎥 Netflix", "💶 PayPal", "🎮 Steam", "🪟 Microsoft", "🐬 OneDrive", "🍏 Apple", "🎶 Apple Music", "🔔 FCM", "📟 WhatsApp", "🗨️ Line", "💬 微信", "📕 小红书", "🧣 微博", "📺 哔哩哔哩", "📹 腾讯视频", "💽 yandex", "📶 国外社交", "🐠 漏网之鱼", "🇭🇰 香港手动", "🇯🇵 日本手动", "🇸🇬 新加坡手动", "🇺🇲 美国手动", "🇺🇲 美国自动", "🇬🇧 英国手动", "🖥️ VPS自动", "☁️ CF自动", "☁️ CF80", "🎇 CM自动", "🌍 其他手动", "🌍 其他自动", "🐸 手动选择", "♻️ 自动选择", "🍃 延迟辅助", "🎯 全球直连"]},
     {"tag": "🎯 全球直连", "type": "direct"}
@@ -65,6 +66,7 @@
   "route": {
     "rules": [
       {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
+      {"inbound": "dns-in", "action": "hijack-dns"},
       {"ip_is_private": true, "outbound": "🎯 全球直连"},
       {"clash_mode": "direct", "outbound": "🎯 全球直连"},
       {"clash_mode": "global", "outbound": "GLOBAL"},
@@ -138,6 +140,7 @@
       {"tag": "geoip-cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://github.com/qljsyph/ruleset-icon/raw/refs/heads/main/sing-box/geoip/China-ASN-combined-ip.srs", "download_detour": "🎯 全球直连"}
     ],
     "final": "🐠 漏网之鱼",
+    "auto_detect_interface": true,
     "default_domain_resolver": {"server": "public"}
   },
   "inbounds": [
@@ -172,31 +175,23 @@
     }
   ],
   "experimental": {
-    "clash_api": {
-      "external_controller": "127.0.0.1:9090",
-      "external_ui": "/storage/emulated/0/Download/sing-box/ui",
-      "external_ui_download_url": "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
-      "external_ui_download_detour": "🎯 全球直连",
-      "secret": "bb67f44ca0d17918ce8a294e3741ff1b3204533e81a807293b528f2580ace2a9",
-      "default_mode": "rule",
-      "access_control_allow_origin": [
-        "*"
-      ],
-      "access_control_allow_private_network": false
-    },
     "cache_file": {
       "enabled": true,
       "path": "cache.db",
-      "cache_id": "",
-      "store_fakeip": true,
-      "store_rdrc": true,
-      "rdrc_timeout": "7d"
+      "store_fakeip": true
+    },
+    "clash_api": {
+      "external_controller": "0.0.0.0:9095",
+      "external_ui": "/storage/emulated/0/Download/sing-box/ui",
+      "external_ui_download_url": "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
+      "external_ui_download_detour": "🎯 全球直连",
+      "secret": "",
+      "default_mode": "rule"
     }
   },
   "log": {
     "disabled": false,
     "level": "info",
-    "output": "",
-    "timestamp": false
+    "timestamp": true
   }
 }
